@@ -11,7 +11,7 @@ const Db = async (req, res) => {
   } 
     
   catch (error) {
-    return res.json(new ApiErrors("Database Connection problem"));
+    console.log(error.message)
   }
 };
 module.exports = Db;

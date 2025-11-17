@@ -103,6 +103,30 @@ const getAllProduct = async (req, res) => {
   }
 };
 
+const getSingleProduct = async (req, res) => {
+  try {
+
+    const product = await Product.findById({_id: req.params.id})
+    if(!product){
+      logger.error(`Product not found.`)
+      return res.json(new ApiErrors("Product not found."))
+    }
+
+    logger.info(`Product found and displayed.`)
+    res.json(new ApiResponse(
+      "product found successfully.",
+      product
+    ))
+  } 
+  
+  catch (error) {
+    logger.error(`getSingleProduct [Error: "${error.message}"]`);
+    return res.json(new ApiErrors(
+      error.message || "getSingleProduct Error catch block."
+    ))
+  }
+}
+
 const getSingleProductAndUpdate = async (req, res) => {
   try {
     const NewData = req.body;
@@ -183,6 +207,7 @@ const getSingleProductAndDelete = async (req, res) => {
 module.exports = {
   createProduct,
   getAllProduct,
+  getSingleProduct,
   getSingleProductAndUpdate,
   getSingleProductAndDelete,
 };
